@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: football_raw
+    project: football-dashboard-490415
+    dataset: football_raw
+    tables:
+      - name: fixtures
+      - name: standings

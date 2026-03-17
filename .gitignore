@@ -1,0 +1,36 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Variables d'environnement
+.env
+
+# dbt
+dbt_project/football_dbt/target/
+dbt_project/football_dbt/logs/
+dbt_project/football_dbt/dbt_packages/
+
+# Données locales
+data/
+
+# ML
+ml/dataset.csv
+ml/model.joblib
+ml/label_encoder.joblib
+
+# GCP credentials
+*.json
+service-account*.json
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/

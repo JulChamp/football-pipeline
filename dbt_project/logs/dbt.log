@@ -1,0 +1,46 @@
+[0m16:35:36.828442 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10a4acd90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10a50b250>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10a50b890>]}
+
+
+============================== 16:35:36.832134 | 992c5206-c2b6-41d4-a9ed-2ef6c31f3737 ==============================
+[0m16:35:36.832134 [info ] [MainThread]: Running with dbt=1.7.19
+[0m16:35:36.832381 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/Users/julienchampagne/.dbt', 'version_check': 'True', 'warn_error': 'None', 'log_path': 'logs', 'fail_fast': 'False', 'debug': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'introspect': 'True', 'invocation_command': 'dbt init football_dbt', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True'}
+[0m16:35:36.832615 [warn ] [MainThread]: [ConfigFolderDirectory]: Unable to parse dict {'dir': PosixPath('/Users/julienchampagne/.dbt')}
+[0m16:35:36.832757 [info ] [MainThread]: Creating dbt configuration folder at 
+[0m16:35:36.833163 [debug] [MainThread]: Starter project path: /Users/julienchampagne/Travail/football-pipeline/.venv/lib/python3.11/site-packages/dbt/include/starter_project
+[0m16:35:36.836870 [info ] [MainThread]: 
+Your new dbt project "football_dbt" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m16:35:36.837043 [info ] [MainThread]: Setting up your profile.
+[0m16:42:45.960263 [info ] [MainThread]: Profile football_dbt written to /Users/julienchampagne/.dbt/profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m16:42:46.151980 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 429.35126, "process_user_time": 3.91007, "process_kernel_time": 0.839991, "process_mem_max_rss": "222593024", "process_in_blocks": "0", "process_out_blocks": "0"}
+[0m16:42:46.153375 [debug] [MainThread]: Command `dbt init` succeeded at 16:42:46.153186 after 429.35 seconds
+[0m16:42:46.153907 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105f8d950>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10a51b410>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10a51bcd0>]}
+[0m16:42:46.154432 [debug] [MainThread]: Flushing usage events
+[0m16:49:36.167384 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e204510>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e2822d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e282910>]}
+
+
+============================== 16:49:36.169465 | 69007542-2cd1-4239-8cb8-e02a2b587772 ==============================
+[0m16:49:36.169465 [info ] [MainThread]: Running with dbt=1.7.19
+[0m16:49:36.169703 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'debug': 'False', 'profiles_dir': '/Users/julienchampagne/.dbt', 'log_path': 'logs', 'fail_fast': 'False', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'invocation_command': 'dbt run', 'target_path': 'None', 'introspect': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m16:49:36.169956 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /Users/julienchampagne/Travail/football-pipeline/dbt_project/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m16:49:36.171618 [debug] [MainThread]: Resource report: {"command_name": "run", "command_wall_clock_time": 0.03029421, "process_user_time": 0.617387, "process_kernel_time": 0.104364, "process_mem_max_rss": "113803264", "command_success": false, "process_in_blocks": "0", "process_out_blocks": "0"}
+[0m16:49:36.171833 [debug] [MainThread]: Command `dbt run` failed at 16:49:36.171780 after 0.03 seconds
+[0m16:49:36.171986 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10ddb2a90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e205b50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109d7fe90>]}
+[0m16:49:36.172128 [debug] [MainThread]: Flushing usage events

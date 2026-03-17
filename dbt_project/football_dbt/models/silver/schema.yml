@@ -1,0 +1,15 @@
+version: 2
+models:
+  - name: stg_fixtures
+    columns:
+      - name: fixture_id
+        tests:
+          - unique
+          - not_null
+      - name: result
+        tests:
+          - accepted_values:
+              values: ['home_win', 'away_win', 'draw']
+      - name: home_goals
+        tests:
+          - not_null

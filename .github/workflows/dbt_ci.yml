@@ -1,0 +1,15 @@
+name: dbt CI
+on: [push]
+jobs:
+  dbt-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install dbt-bigquery
+      - name: Authenticate GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - run: cd dbt_project/football_dbt && dbt test

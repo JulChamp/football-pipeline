@@ -34,3 +34,6 @@ service-account*.json
 
 # VS Code
 .vscode/
+logs/
+*.log
+dbt_project/football_dbt/dbt_packages/

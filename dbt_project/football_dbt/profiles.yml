@@ -3,20 +3,9 @@ football_dbt:
   outputs:
     dev:
       type: bigquery
-      method: service-account-json
+      method: oauth
       project: football-dashboard-490415
       dataset: football_curated
       location: EU
       threads: 4
       timeout_seconds: 300
-      keyfile_json:
-        type: "{{ env_var('GCP_SA_TYPE') }}"
-        project_id: "{{ env_var('GCP_SA_PROJECT_ID') }}"
-        private_key_id: "{{ env_var('GCP_SA_PRIVATE_KEY_ID') }}"
-        private_key: "{{ env_var('GCP_SA_PRIVATE_KEY') }}"
-        client_email: "{{ env_var('GCP_SA_CLIENT_EMAIL') }}"
-        client_id: "{{ env_var('GCP_SA_CLIENT_ID') }}"
-        auth_uri: "{{ env_var('GCP_SA_AUTH_URI') }}"
-        token_uri: "{{ env_var('GCP_SA_TOKEN_URI') }}"
-        auth_provider_x509_cert_url: "{{ env_var('GCP_SA_AUTH_PROVIDER_CERT_URL') }}"
-        client_x509_cert_url: "{{ env_var('GCP_SA_CLIENT_CERT_URL') }}"

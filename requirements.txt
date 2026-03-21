@@ -9,3 +9,5 @@ xgboost==2.0.3
 google-cloud-aiplatform==1.38.0
 streamlit==1.31.0
 flask==3.1.0
+db-dtypes
+setuptools>=68.0.0

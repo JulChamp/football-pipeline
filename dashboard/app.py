@@ -1,6 +1,19 @@
 import streamlit as st
 from google.cloud import aiplatform
+from google.oauth2 import service_account
 import os
+
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"]
+)
+
+aiplatform.init(
+    project=st.secrets["GCP_PROJECT_ID"],
+    location="europe-west1",
+    credentials=credentials,
+)
+
+endpoint = aiplatform.Endpoint(st.secrets["VERTEX_ENDPOINT_ID"])
 
 st.set_page_config(page_title="⚽ Match Predictor", page_icon="⚽")
 st.title("⚽ Football Match Predictor")

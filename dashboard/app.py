@@ -13,12 +13,10 @@ aiplatform.init(
     credentials=credentials,
 )
 
-endpoint = aiplatform.Endpoint(st.secrets["VERTEX_ENDPOINT_ID"])
-
 st.set_page_config(page_title="⚽ Match Predictor", page_icon="⚽")
 st.title("⚽ Football Match Predictor")
 st.caption(
-    "Prédiction basée sur la forme des 5 derniers matchs · Modèle XGBoost déployé sur Vertex AI"
+    "Prédiction basée sur la forme des 5 derniers matchs · XGBoost sur Vertex AI"
 )
 
 st.subheader("Équipe à domicile")
@@ -34,10 +32,21 @@ ad = col5.number_input("Nuls", 0, 5, 2, key="ad")
 al = col6.number_input("Défaites", 0, 5, 2, key="al")
 
 if st.button("🔮 Prédire le résultat", type="primary"):
-    aiplatform.init(project=os.getenv("GCP_PROJECT_ID"), location="europe-west1")
-    endpoint = aiplatform.Endpoint(os.getenv("VERTEX_ENDPOINT_ID"))
-    prediction = endpoint.predict([[hw, hd, hl, aw, ad, al]])
-    labels = ["away_win", "draw", "home_win"]
-    result = labels[prediction.predictions[0]]
+    endpoint = aiplatform.Endpoint(st.secrets["VERTEX_ENDPOINT_ID"])
+
+    # Format attendu par Vertex AI pour sklearn/xgboost
+    instances = [
+        {
+            "home_wins_l5": float(hw),
+            "home_draws_l5": float(hd),
+            "home_losses_l5": float(hl),
+            "away_wins_l5": float(aw),
+            "away_draws_l5": float(ad),
+            "away_losses_l5": float(al),
+        }
+    ]
+
+    prediction = endpoint.predict(instances=instances)
+    result = prediction.predictions[0]
     emoji = {"home_win": "🏠✅", "away_win": "✈️✅", "draw": "🤝"}
-    st.success(f"Résultat prédit : **{result}** {emoji[result]}")
+    st.success(f"Résultat prédit : **{result}** {emoji.get(result, '❓')}")

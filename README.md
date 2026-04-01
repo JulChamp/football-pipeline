@@ -7,7 +7,7 @@ Ingestion quotidienne → BigQuery → dbt → ML → Dashboard public.
 
 - 📊 [Dashboard Looker Studio](https://lookerstudio.google.com/reporting/bb0c6db3-2690-4467-9407-49f771e8bb55)
 - 🔮 [App Prédictions ML](https://football-pipeline-e5oceao3swkex579zcmkqt.streamlit.app/#75cb2433)
-- 📐 [Lineage dbt](URL_GITHUB_PAGES)
+- 📐 [Lineage dbt](https://julchamp.github.io/football-pipeline)
 
 ## 🏗 Architecture
 

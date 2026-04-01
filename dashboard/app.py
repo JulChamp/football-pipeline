@@ -1,7 +1,9 @@
 import streamlit as st
 from google.oauth2 import service_account
 from google.cloud import storage
-import joblib, tempfile, os
+import joblib, tempfile
+
+st.set_page_config(page_title="⚽ Match Predictor", page_icon="⚽")
 
 credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
@@ -14,18 +16,13 @@ def load_model():
     bucket = client.bucket("football-pipeline-football-dashboard-490415")
     with tempfile.NamedTemporaryFile(delete=False, suffix=".joblib") as f:
         bucket.blob("models/model.joblib").download_to_file(f)
-        tmp_path = f.name
-    model = joblib.load(tmp_path)
+        model = joblib.load(f.name)
     with tempfile.NamedTemporaryFile(delete=False, suffix=".joblib") as f:
         bucket.blob("models/label_encoder.joblib").download_to_file(f)
-        tmp_path = f.name
-    le = joblib.load(tmp_path)
+        le = joblib.load(f.name)
     return model, le
 
 
-model, le = load_model()
-
-st.set_page_config(page_title="⚽ Match Predictor", page_icon="⚽")
 st.title("⚽ Football Match Predictor")
 st.caption("Prédiction basée sur la forme des 5 derniers matchs · XGBoost")
 
@@ -42,6 +39,8 @@ ad = col5.number_input("Nuls", 0, 5, 2, key="ad")
 al = col6.number_input("Défaites", 0, 5, 2, key="al")
 
 if st.button("🔮 Prédire le résultat", type="primary"):
+    with st.spinner("Chargement du modèle..."):
+        model, le = load_model()
     pred = model.predict([[hw, hd, hl, aw, ad, al]])
     result = le.inverse_transform(pred)[0]
     emoji = {"home_win": "🏠✅", "away_win": "✈️✅", "draw": "🤝"}

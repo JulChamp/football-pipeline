@@ -1,0 +1,40 @@
+name: Publish dbt docs
+on:
+  push:
+    branches: [main]
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: Install dbt
+        run: pip install dbt-bigquery
+      - name: Create profiles
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml << 'EOF'
+          football_dbt:
+            target: dev
+            outputs:
+              dev:
+                type: bigquery
+                method: oauth
+                project: football-dashboard-490415
+                dataset: football_curated
+                location: EU
+                threads: 4
+                timeout_seconds: 300
+          EOF
+      - name: Generate dbt docs
+        run: cd dbt_project/football_dbt && dbt docs generate
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dbt_project/football_dbt/target

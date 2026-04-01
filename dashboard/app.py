@@ -1,23 +1,33 @@
 import streamlit as st
-from google.cloud import aiplatform
 from google.oauth2 import service_account
-import os
+from google.cloud import storage
+import joblib, tempfile, os
 
 credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
 )
 
-aiplatform.init(
-    project=st.secrets["GCP_PROJECT_ID"],
-    location="europe-west1",
-    credentials=credentials,
-)
+
+@st.cache_resource
+def load_model():
+    client = storage.Client(credentials=credentials)
+    bucket = client.bucket("football-pipeline-football-dashboard-490415")
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".joblib") as f:
+        bucket.blob("models/model.joblib").download_to_file(f)
+        tmp_path = f.name
+    model = joblib.load(tmp_path)
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".joblib") as f:
+        bucket.blob("models/label_encoder.joblib").download_to_file(f)
+        tmp_path = f.name
+    le = joblib.load(tmp_path)
+    return model, le
+
+
+model, le = load_model()
 
 st.set_page_config(page_title="⚽ Match Predictor", page_icon="⚽")
 st.title("⚽ Football Match Predictor")
-st.caption(
-    "Prédiction basée sur la forme des 5 derniers matchs · XGBoost sur Vertex AI"
-)
+st.caption("Prédiction basée sur la forme des 5 derniers matchs · XGBoost")
 
 st.subheader("Équipe à domicile")
 col1, col2, col3 = st.columns(3)
@@ -32,21 +42,7 @@ ad = col5.number_input("Nuls", 0, 5, 2, key="ad")
 al = col6.number_input("Défaites", 0, 5, 2, key="al")
 
 if st.button("🔮 Prédire le résultat", type="primary"):
-    endpoint = aiplatform.Endpoint(st.secrets["VERTEX_ENDPOINT_ID"])
-
-    # Format attendu par Vertex AI pour sklearn/xgboost
-    instances = [
-        {
-            "home_wins_l5": float(hw),
-            "home_draws_l5": float(hd),
-            "home_losses_l5": float(hl),
-            "away_wins_l5": float(aw),
-            "away_draws_l5": float(ad),
-            "away_losses_l5": float(al),
-        }
-    ]
-
-    prediction = endpoint.predict(instances=instances)
-    result = prediction.predictions[0]
+    pred = model.predict([[hw, hd, hl, aw, ad, al]])
+    result = le.inverse_transform(pred)[0]
     emoji = {"home_win": "🏠✅", "away_win": "✈️✅", "draw": "🤝"}
     st.success(f"Résultat prédit : **{result}** {emoji.get(result, '❓')}")

@@ -14,12 +14,17 @@ credentials = service_account.Credentials.from_service_account_info(
 def load_model():
     client = storage.Client(credentials=credentials)
     bucket = client.bucket("football-pipeline-football-dashboard-490415")
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".joblib") as f:
-        bucket.blob("models/model.joblib").download_to_file(f)
-        model = joblib.load(f.name)
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".joblib") as f:
-        bucket.blob("models/label_encoder.joblib").download_to_file(f)
-        le = joblib.load(f.name)
+
+    # Télécharger model.joblib
+    model_path = "/tmp/model.joblib"
+    bucket.blob("models/model.joblib").download_to_filename(model_path)
+    model = joblib.load(model_path)
+
+    # Télécharger label_encoder.joblib
+    le_path = "/tmp/label_encoder.joblib"
+    bucket.blob("models/label_encoder.joblib").download_to_filename(le_path)
+    le = joblib.load(le_path)
+
     return model, le
 
 
